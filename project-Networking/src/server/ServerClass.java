@@ -1,8 +1,13 @@
 package server;
 
-import java.io.*;
-import java.net.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Scanner;
+import functions.Countdown;
 
 public class ServerClass {
 	
@@ -15,6 +20,7 @@ public class ServerClass {
 		OutputStream outputStream = null;
 		DataOutputStream dataOutputStream = null;
 		Scanner scanner = null;
+		Countdown countdown = null;
 		
 		try {
 			serverSocket = new ServerSocket(9000); //서버 소켓 생성(9000은 포트 번호)
@@ -31,6 +37,7 @@ public class ServerClass {
 			dataOutputStream = new DataOutputStream(outputStream);
 			
 			scanner = new Scanner(System.in);
+			countdown = new Countdown();
 			
 			while(true) {
 				System.out.println();
@@ -50,6 +57,7 @@ public class ServerClass {
 				} else if(result == 2) {
 					rmsg = "<클라이언트가 승리했습니다.>";
 				} else {rmsg = "<에러 . . . >";}
+				countdown.countdown();
 				System.out.println(rmsg);
 				dataOutputStream.writeUTF(rmsg);
 				dataOutputStream.flush();

@@ -1,8 +1,12 @@
 package client;
 
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Scanner;
+import functions.Countdown;
 
 public class ClientClass {
 
@@ -14,6 +18,7 @@ public class ClientClass {
 		OutputStream outputStream = null;
 		DataOutputStream dataOutputStream = null;
 		Scanner scanner = null;
+		Countdown countdown = null;
 		
 		try {
 			socket = new Socket("localhost",9000); // local host - 127.0.0.1  port# - 9000
@@ -27,6 +32,7 @@ public class ClientClass {
 			dataOutputStream = new DataOutputStream(outputStream);
 			
 			scanner = new Scanner(System.in);
+			countdown = new Countdown();
 			
 			while(true) {
 				System.out.println();
@@ -38,6 +44,7 @@ public class ClientClass {
 				dataOutputStream.flush();
 				System.out.println("상대 기다리는 중 . . .");
 				String msg = dataInputStream.readUTF();
+				countdown.countdown();
 				System.out.println(msg);
 
 			}
